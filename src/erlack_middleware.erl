@@ -15,10 +15,10 @@ wrap(Fun, Handler) when is_function(Fun, 1) ->
 wrap_test_() ->
     Test =
         fun(Middleware) ->
-                ?assert(ok =:= ecgi:apply_handler(wrap(Middleware, fun() -> ok end)))
+                ?_assertEqual(ok, ecgi:apply_handler(wrap(Middleware, fun() -> ok end)))
         end,
 
-    [?_test(Test({ecgi, apply_handler, []})),
-     ?_test(Test({fun ecgi:apply_handler/1, []})),
-     ?_test(Test(fun ecgi:apply_handler/1))].
+    [Test({ecgi, apply_handler, []}),
+     Test({fun ecgi:apply_handler/1, []}),
+     Test(fun ecgi:apply_handler/1)].
 -endif.

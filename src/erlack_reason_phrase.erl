@@ -21,7 +21,7 @@ middleware_test_() ->
     Test =
         fun(Handler, Status) ->
                 {response, Status1, _, _} = middleware(Handler),
-                ?assert(Status =:= Status1)
+                ?assertEqual(Status, Status1)
         end,
 
     Handler = fun(Status) -> fun() -> {response, Status, #{}, <<"">>} end end,

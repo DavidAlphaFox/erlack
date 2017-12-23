@@ -26,8 +26,8 @@ middleware_test_() ->
     Test =
         fun(Handler, Headers, Body) ->
                 {response, _, Headers1, Body1} = middleware(Handler),
-                ?assert(Headers =:= Headers1),
-                ?assert(Body =:= Body1)
+                ?assertEqual(Headers, Headers1),
+                ?assertEqual(Body, Body1)
         end,
     Handler = fun(Body) -> fun() -> {response, 200, #{}, Body} end end,
 
