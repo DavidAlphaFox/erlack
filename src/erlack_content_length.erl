@@ -9,7 +9,7 @@ middleware(Handler) ->
         {chunked, BodyHandler} ->
             {response, Status,
              Headers#{<<"Transfer-Encoding">> => <<"chunked">>},
-             {handler, {ecgi, chunked_output, BodyHandler}}};
+             {handler, {ecgi, chunked_output, [BodyHandler]}}};
         {handler, _} ->
             {response, Status, Headers, Body};
         _ ->
@@ -32,7 +32,7 @@ middleware_test_() ->
     Handler = fun(Body) -> fun() -> {response, 200, #{}, Body} end end,
 
     [?_test(Test(Handler(<<"">>), #{<<"Content-Length">> => <<"0">>}, <<"">>)),
-     ?_test(Test(Handler({chunked, none}), #{<<"Transfer-Encoding">> => <<"chunked">>}, {handler, {ecgi, chunked_output, none}})),
+     ?_test(Test(Handler({chunked, none}), #{<<"Transfer-Encoding">> => <<"chunked">>}, {handler, {ecgi, chunked_output, [none]}})),
      ?_test(Test(Handler({handler, none}), #{}, {handler, none}))].
 
 -endif.
